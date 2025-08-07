@@ -1,4 +1,26 @@
+import { useContext } from "react";
+import AuthContext from "../provider/AuthContext";
+
 const Register = () => {
+  const { createUser, setUser } = useContext(AuthContext);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const name = form.get("name");
+    const email = form.get("email");
+    const photo = form.get("photo");
+    const password = form.get("password");
+    const terms = e.target.terms.checked;
+
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        e.target.reset();
+      })
+      .catch((error) => console.log(error.message));
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f4f4f4]">
       <div className="bg-white p-10 rounded-lg shadow-md w-full max-w-md">
@@ -7,7 +29,7 @@ const Register = () => {
         </h2>
         <div className="border-t-2 border-[#E7E7E7] mb-6"></div>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* Name */}
           <div className="mb-4">
             <label className="block text-[#403F3F] font-semibold mb-1">
@@ -15,6 +37,7 @@ const Register = () => {
             </label>
             <input
               type="text"
+              name="name"
               placeholder="Enter your name"
               className="w-full p-3 rounded-md bg-[#F3F3F3] outline-none"
               required
@@ -28,6 +51,7 @@ const Register = () => {
             </label>
             <input
               type="text"
+              name="photo"
               placeholder="Enter your photo URL"
               className="w-full p-3 rounded-md bg-[#F3F3F3] outline-none"
             />
@@ -40,6 +64,7 @@ const Register = () => {
             </label>
             <input
               type="email"
+              name="email"
               placeholder="Enter your email address"
               className="w-full p-3 rounded-md bg-[#F3F3F3] outline-none"
               required
@@ -53,6 +78,7 @@ const Register = () => {
             </label>
             <input
               type="password"
+              name="password"
               placeholder="Enter your password"
               className="w-full p-3 rounded-md bg-[#F3F3F3] outline-none"
               required
@@ -63,6 +89,7 @@ const Register = () => {
           <div className="flex items-center gap-2 mb-6">
             <input
               type="checkbox"
+              name="terms"
               id="terms"
               className="checkbox checkbox-sm"
             />

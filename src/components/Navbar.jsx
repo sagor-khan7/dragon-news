@@ -20,7 +20,9 @@ const Navbar = () => {
         <div>
           <img src={userIcon} alt="user profile icon" />
         </div>
-        <button className="btn rounded-none bg-[#403F3F] text-white font-semibold text-xl">Login</button>
+        <button className="btn rounded-none bg-[#403F3F] text-white font-semibold text-xl">
+          Login
+        </button>
       </div>
     </div>
   );

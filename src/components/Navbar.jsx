@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between items-center">
-      <div></div>
+      <div className="text-xl font-bold text-[#706F6F]">{user && <p>{user?.displayName}</p>}</div>
       <div className="space-x-5">
         <Link to="/" className="text-lg text-[#706F6F]">
           Home
@@ -22,7 +22,19 @@ const Navbar = () => {
       </div>
       <div className="flex space-x-3 items-center">
         <div>
-          <img src={userIcon} alt="user profile icon" />
+          {user ? (
+            <img
+              className="w-10 h-10 rounded-full object-cover"
+              src={user?.photoURL}
+              alt="user profile icon"
+            />
+          ) : (
+            <img
+              className="w-10 h-10 rounded-full object-cover"
+              src={userIcon}
+              alt="user profile icon"
+            />
+          )}
         </div>
         {user ? (
           <Link

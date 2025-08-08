@@ -1,9 +1,11 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../provider/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { createUser, setUser } = useContext(AuthContext);
-
+  const [agree, setAgree] = useState(false);
+  const { createUser, setUser, updateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
     const form = new FormData(e.target);
@@ -11,12 +13,16 @@ const Register = () => {
     const email = form.get("email");
     const photo = form.get("photo");
     const password = form.get("password");
-    const terms = e.target.terms.checked;
 
     createUser(email, password)
       .then((result) => {
         const user = result.user;
         setUser(user);
+        updateUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            navigate("/");
+          })
+          .catch((error) => console.log(error.message));
         e.target.reset();
       })
       .catch((error) => console.log(error.message));
@@ -89,9 +95,10 @@ const Register = () => {
           <div className="flex items-center gap-2 mb-6">
             <input
               type="checkbox"
-              name="terms"
               id="terms"
               className="checkbox checkbox-sm"
+              checked={agree}
+              onChange={() => setAgree(!agree)}
             />
             <label htmlFor="terms" className="text-sm text-[#706F6F]">
               Accept <span className="font-semibold">Term & Conditions</span>
@@ -101,7 +108,12 @@ const Register = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full py-3 rounded-md font-semibold text-white bg-[#403F3F] hover:bg-gray-800"
+            disabled={!agree}
+            className={`w-full py-3 rounded-md font-semibold text-white ${
+              agree
+                ? "bg-[#403F3F] hover:bg-gray-800"
+                : "bg-gray-300 cursor-not-allowed"
+            }`}
           >
             Register
           </button>

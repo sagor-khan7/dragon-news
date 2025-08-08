@@ -22,10 +22,14 @@ const Register = () => {
           .then(() => {
             navigate("/");
           })
-          .catch((error) => console.log(error.message));
+          .catch((error) => {
+            // console.log(error.message)
+          });
         e.target.reset();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        // console.log(error.message)
+      });
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f4f4f4]">
